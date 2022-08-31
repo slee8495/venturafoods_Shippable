@@ -15,7 +15,7 @@ options(scipen = 100000000)
 
 # Read model_1 ----
 
-model_1 <- read_excel("C:/Users/SLee/OneDrive - Ventura Foods/Desktop/model_1.xlsx", 
+model_1 <- read_excel("C:/Users/slee/OneDrive - Ventura Foods/Ventura Work/SCE/Project/FY 23/Shipabble/model_1.xlsx", 
                       col_types = c("text", "text", "numeric", 
                                     "numeric", "numeric", "numeric", 
                                     "numeric"))
@@ -52,7 +52,7 @@ model_1
 
 # Read model_2 ----
 
-model_2 <- read_excel("C:/Users/SLee/OneDrive - Ventura Foods/Desktop/model_2.xlsx", 
+model_2 <- read_excel("C:/Users/slee/OneDrive - Ventura Foods/Ventura Work/SCE/Project/FY 23/Shipabble/model_2.xlsx", 
                       col_types = c("text", "text", "text", 
                                     "text", "numeric"))
 
@@ -77,7 +77,7 @@ model_2 %>%
 
 # Read model_3 ----
 
-model_3 <- read_excel("C:/Users/SLee/OneDrive - Ventura Foods/Desktop/model_3.xlsx")
+model_3 <- read_excel("C:/Users/slee/OneDrive - Ventura Foods/Ventura Work/SCE/Project/FY 23/Shipabble/model_3.xlsx")
 
 model_3[-1:-2,] -> model_3
 

@@ -5,12 +5,8 @@ library(openxlsx)
 library(reshape2)
 
 
-Shelf_Life_Analysis <- read_excel("C:/Users/SLee/OneDrive - Ventura Foods/Desktop/Shelf Life Analysis.xlsx", 
-                                  sheet = "Shelf Life Analysis", col_types = c("text", 
-                                                                               "text", "text", "text", "text", "text", 
-                                                                               "text", "text", "text", "text", "text", 
-                                                                               "text", "text", "text", "text", "text", 
-                                                                               "text", "text", "text", "text", "numeric"))
+Shelf_Life_Analysis <- read_excel("C:/Users/slee/OneDrive - Ventura Foods/Ventura Work/SCE/Project/FY 23/Shipabble/Shelf Life Analysis.xlsx", 
+                                  sheet = "Shelf Life Analysis")
 
 
 colnames(Shelf_Life_Analysis)[1] <- "Sku"
