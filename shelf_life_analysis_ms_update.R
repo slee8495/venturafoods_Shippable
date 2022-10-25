@@ -10,7 +10,8 @@ library(lubridate)
 
 
 # Read attributes file from MS ----
-attributes <- read_excel("C:/Users/slee/OneDrive - Ventura Foods/Ventura Work/SCE/Project/FY 23/Shipabble/Shippable Tool MS Dossier Automation/8.31.22/attributes.xlsx")
+# https://edgeanalytics.venturafoods.com/MicroStrategyLibrary/app/DF007F1C11E9B3099BB30080EF7513D2/1ADEF816D3436E56B40245AE19C3CF5B/K53--K46
+attributes <- read_excel("C:/Users/slee/OneDrive - Ventura Foods/Ventura Work/SCE/Project/FY 23/Shipabble/Shippable Tool MS Dossier Automation/10.25.22/attributes.xlsx")
 
 attributes %>% 
   janitor::clean_names() %>% 
@@ -21,7 +22,8 @@ attributes %>%
 
 
 # Read model_2 file from MS ----
-model_2 <- read_excel("C:/Users/slee/OneDrive - Ventura Foods/Ventura Work/SCE/Project/FY 23/Shipabble/Shippable Tool MS Dossier Automation/8.31.22/model_2.xlsx")
+# https://edgeanalytics.venturafoods.com/MicroStrategyLibrary/app/DF007F1C11E9B3099BB30080EF7513D2/6F3AEB91274EECDAC96F07A3E1CAE0F6/K53--K46
+model_2 <- read_excel("C:/Users/slee/OneDrive - Ventura Foods/Ventura Work/SCE/Project/FY 23/Shipabble/Shippable Tool MS Dossier Automation/10.25.22/model_2.xlsx")
 
 model_2[-1, ] -> model_2
 colnames(model_2) <- model_2[1, ]
@@ -36,7 +38,8 @@ model_2 %>%
 
 
 # Read model_3 file from MS ----
-model_3 <- read_excel("C:/Users/slee/OneDrive - Ventura Foods/Ventura Work/SCE/Project/FY 23/Shipabble/Shippable Tool MS Dossier Automation/8.31.22/model_3.xlsx")
+# https://edgeanalytics.venturafoods.com/MicroStrategyLibrary/app/DF007F1C11E9B3099BB30080EF7513D2/7A11AE535B42A4DBD97073A3856B968F/K53--K46
+model_3 <- read_excel("C:/Users/slee/OneDrive - Ventura Foods/Ventura Work/SCE/Project/FY 23/Shipabble/Shippable Tool MS Dossier Automation/10.25.22/model_3.xlsx")
 
 model_3[-1, ] -> model_3
 colnames(model_3) <- model_3[1, ]
@@ -46,7 +49,7 @@ model_3 %>%
   janitor::clean_names() %>% 
   readr::type_convert() %>% 
   data.frame() %>% 
-  dplyr::mutate(ref_2 = paste0(location, "_", ship_to_customer)) -> model_3
+  dplyr::mutate(ref_2 = paste0(location, "_", customer_ship_to)) -> model_3
 
 
 # Ship to customer into attributes
@@ -64,15 +67,15 @@ attributes %>%
 
 # percent of shelf life to attributes
 model_3 %>% 
-  dplyr::select(ref_2, percent_of_shelf_life) -> model_3_perct_shelf_life
+  dplyr::select(ref_2, product_ship_shelf_life_percent) -> model_3_perct_shelf_life
 
 attributes %>% 
   dplyr::left_join(model_3_perct_shelf_life, by = "ref_2") %>% 
-  dplyr::mutate(percent_of_shelf_life = replace(percent_of_shelf_life, is.na(percent_of_shelf_life), 50)) -> attributes
+  dplyr::mutate(product_ship_shelf_life_percent = replace(product_ship_shelf_life_percent, is.na(product_ship_shelf_life_percent), 50)) -> attributes
 
 
 attributes %>% 
-  dplyr::select(customer_ship_to_name_1, customer_ship_to_ship_to, label_code, location_no, percent_of_shelf_life, product_category_code,
+  dplyr::select(customer_ship_to_name_1, customer_ship_to_ship_to, label_code, location_no, product_ship_shelf_life_percent, product_category_code,
                 product_category_name, product_platform_code, product_platform_name, product_label_sku_name, product_sub_category_code,
                 product_sub_category_name, sales_channel_desc, sales_channel_no, sales_manager_name, sales_manager_no, product_label_sku_code,
                 super_customer_name, super_customer_no, net_pounds_lbs, selling_region_no, selling_region_name, ref) %>% 
@@ -80,7 +83,7 @@ attributes %>%
                 "Customer Ship To No" = customer_ship_to_ship_to,
                 Label = label_code,
                 Location = location_no,
-                "Percent Of Shelf Life" = percent_of_shelf_life,
+                "Percent Of Shelf Life" = product_ship_shelf_life_percent,
                 "Product Category Code" = product_category_code,
                 "Product Category Name" = product_category_name,
                 "Product Platform Code" = product_platform_code,
