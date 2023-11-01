@@ -9,9 +9,11 @@ library(janitor)
 library(lubridate)
 
 
+
 # Read attributes file from MS ----
 # https://edgeanalytics.venturafoods.com/MicroStrategyLibrary/app/DF007F1C11E9B3099BB30080EF7513D2/1ADEF816D3436E56B40245AE19C3CF5B/K53--K46
-attributes <- read_excel("C:/Users/slee/OneDrive - Ventura Foods/Ventura Work/SCE/Project/FY 23/Shipabble/Shippable Tool MS Dossier Automation/10.25.22/attributes.xlsx")
+## Make sure to go with past 6 months (Edit dataset -> Edit Filter)
+attributes <- read_excel("C:/Users/slee/OneDrive - Ventura Foods/Ventura Work/SCE/Project/FY 23/Shipabble/Shippable Tool MS Dossier Automation/2023/11.01.2023/attributes.xlsx")
 
 attributes %>% 
   janitor::clean_names() %>% 
@@ -22,8 +24,8 @@ attributes %>%
 
 
 # Read model_2 file from MS ----
-# https://edgeanalytics.venturafoods.com/MicroStrategyLibrary/app/DF007F1C11E9B3099BB30080EF7513D2/6F3AEB91274EECDAC96F07A3E1CAE0F6/K53--K46
-model_2 <- read_excel("C:/Users/slee/OneDrive - Ventura Foods/Ventura Work/SCE/Project/FY 23/Shipabble/Shippable Tool MS Dossier Automation/10.25.22/model_2.xlsx")
+# https://edgeanalytics.venturafoods.com/MicroStrategyLibrary/app/DF007F1C11E9B3099BB30080EF7513D2/899AA319964180E4D2C3E2AF594BB2F5
+model_2 <- read_excel("C:/Users/slee/OneDrive - Ventura Foods/Ventura Work/SCE/Project/FY 23/Shipabble/Shippable Tool MS Dossier Automation/2023/11.01.2023/model_2.xlsx")
 
 model_2[-1, ] -> model_2
 colnames(model_2) <- model_2[1, ]
@@ -41,27 +43,18 @@ model_2 %>%
 # https://edgeanalytics.venturafoods.com/MicroStrategyLibrary/app/DF007F1C11E9B3099BB30080EF7513D2/7A11AE535B42A4DBD97073A3856B968F/K53--K46
 
 # temporary using AS400 file from Dominee
-model_3 <- read_excel("C:/Users/slee/OneDrive - Ventura Foods/Ventura Work/SCE/Project/FY 23/Shipabble/Shippable Tool MS Dossier Automation/10.26.22/Shelf Life Percentage Detail by Profile 10.25.2022 R.xlsx")
+model_3 <- read_excel("C:/Users/slee/OneDrive - Ventura Foods/Ventura Work/SCE/Project/FY 23/Shipabble/Shippable Tool MS Dossier Automation/2023/11.01.2023/model_3.xlsx")
 
-####### This is for when Micro is fixed
-
-# model_3[-1, ] -> model_3
-# colnames(model_3) <- model_3[1, ]
-# model_3[-1, ] -> model_3
-# 
-# model_3 %>% 
-#   janitor::clean_names() %>% 
-#   readr::type_convert() %>% 
-#   data.frame() %>% 
-#   dplyr::mutate(ref_2 = paste0(location, "_", customer_ship_to)) -> model_3
-
+model_3[-1, ] -> model_3
+colnames(model_3) <- model_3[1, ]
 
 model_3 %>% 
+  dplyr::slice(-1) %>% 
   janitor::clean_names() %>% 
-  data.frame() %>% 
-  dplyr::select(customer_number, ship_location, shelf_life_percentage) %>% 
+  dplyr::rename(customer_number = customer_ship_to,
+                shelf_life_percentage = product_ship_shelf_life_percent) %>% 
+  dplyr::select(customer_number, location, shelf_life_percentage) %>% 
   dplyr::rename(customer_ship_to = customer_number,
-                location = ship_location,
                 product_ship_shelf_life_percent = shelf_life_percentage) %>% 
   dplyr::mutate(ref_2 = paste0(location, "_", customer_ship_to)) -> model_3
 
@@ -118,4 +111,4 @@ attributes %>%
 
 
 ### Export to Excel 
-writexl::write_xlsx(attributes, "Shelf Life Analysis.xlsx")
+writexl::write_xlsx(attributes, "C:/Users/slee/OneDrive - Ventura Foods/Ventura Work/SCE/Project/FY 23/Shipabble/Shippable Tool MS Dossier Automation/2023/11.01.2023/Shelf Life Analysis.xlsx")
