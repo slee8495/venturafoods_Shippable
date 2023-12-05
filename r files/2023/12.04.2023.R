@@ -12,7 +12,8 @@ library(lubridate)
 
 # Read attributes file from MS ----
 # https://edgeanalytics.venturafoods.com/MicroStrategyLibrary/app/DF007F1C11E9B3099BB30080EF7513D2/1ADEF816D3436E56B40245AE19C3CF5B/K53--K46
-## Make sure to go with past 6 months (Edit dataset -> Edit Filter)
+######################## Make sure to go with past 6 months (Edit dataset -> Edit Filter)
+
 attributes <- read_excel("C:/Users/slee/OneDrive - Ventura Foods/Ventura Work/SCE/Project/FY 23/Shipabble/Shippable Tool MS Dossier Automation/2023/12.04.2023/attributes.xlsx")
 
 attributes %>% 
